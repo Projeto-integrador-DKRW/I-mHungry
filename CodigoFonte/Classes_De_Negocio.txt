@@ -1,0 +1,434 @@
+// C#    
+
+public class Restaurante
+    {
+        #region Propriedades        
+        public int Id { get; set; }
+        public string Nome { get; set; }
+        public string Descricao { get; set; }
+        public string Endereco { get; set; }
+        public string Telefone { get; set; }
+        public string HorarioFuncIni { get; set; }
+        public string HorarioFuncFim { get; set; }
+        public string DiasFuncionamento { get; set; }
+
+        #endregion
+
+        #region Cadastro do restaurante
+
+        public void CadastrarRestaurante(Restaurante Entrada)
+        {
+            try
+            {
+                CriticarDados(Entrada);
+
+                //após realizar a validação dos dados, é enviada a requisição para o banco de dados
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        #endregion
+
+        #region Alteracao dos dados do restaurante
+
+        public void AlterarDados(Restaurante inRestaurante)
+        {
+            CriticarDados(inRestaurante);
+
+            //após realizar a validação dos dados, é enviada a requisição para o banco de dados
+        }
+
+        #endregion
+
+        #region Consultar Proximo ID
+
+        public int ConsultarProximoID()
+        {
+            int codigo = 0;
+
+            //Envia uma requisição para o banco, para pegar o proximo id disponivel para o cadastro do restaurante
+
+            return codigo;
+        }
+
+        #endregion
+
+        #region Criticar Dados
+
+        private void CriticarDados(Restaurante inRestaurante)
+        {
+            if (string.IsNullOrEmpty(inRestaurante.Nome))
+                throw new Exception("É necessário informar o Nome do Restaurante");
+
+            if (string.IsNullOrEmpty(inRestaurante.Endereco))
+                throw new Exception("É necessário informar o Endereço do Restaurante");
+
+            if (string.IsNullOrEmpty(inRestaurante.Telefone))
+                throw new Exception("É necessário informar o Telefone de Contato do Restaurante");
+
+            if (inRestaurante.DiasFuncionamento == null)
+                throw new Exception("É necessário informar os Dias de Funcionamento do Restaurante");
+
+            if (inRestaurante.HorarioFuncIni == null)
+                throw new Exception("É necessário informar o horário de funcionamento inicial do Restaurante");
+
+            if (inRestaurante.HorarioFuncFim == null)
+                throw new Exception("É necessário informar o horário de funcionamento final do Restaurante");
+        }
+
+        #endregion
+    }
+
+    public class Mesa
+    {
+        #region Propriedades        
+        public int CodMesa { get; set; }
+        public StatusMesa Status { get; set; }
+        #endregion
+
+        #region Enums
+
+        public enum StatusMesa
+        {
+            Livre = 0,
+
+            Ocupada = 1
+        }
+
+        #endregion
+
+        #region Consulta das mesas
+        public List<Mesa> ConsultarMesas()
+        {
+            List<Mesa> Mesas = new List<Mesa>();
+
+            //Faz a consulta no banco de Dados
+
+            return Mesas;
+        }
+
+        #endregion
+
+        #region Consultar Proximo Código
+
+        public int ConsultarProximoCodigo()
+        {
+            int codigo = 0;
+
+            //Envia uma requisição para o banco, para pegar o proximo código disponivel
+
+            return codigo;
+        }
+
+        #endregion
+
+        #region Cadastro da Mesa
+
+        public void CadastrarMesa(Mesa inMesa)
+        {
+            //Envia a requisição para o banco com o objeto restaurante para cadastra-lo                     
+        }
+
+        #endregion
+
+        #region Reserva de Mesa
+        public void ReservarMesa(int CodMesa)
+        {
+            //Converte o status da Mesa para Enum, para realizar a atualização do mesmo na base
+            int status = ConverterStatusMesa(StatusMesa.Ocupada);
+        }
+
+        #endregion
+
+        #region Esvaziar Mesa
+        public void EsvazizarMesa(int CodMesa)
+        {
+            //Converte o status da Mesa para Enum, para realizar a atualização do mesmo na base
+            int status = ConverterStatusMesa(StatusMesa.Ocupada);
+        }
+
+        #endregion
+
+        #region Métodos Auxiliares
+        private int ConverterStatusMesa(StatusMesa Status)
+        {
+            switch (Status)
+            {
+                case StatusMesa.Livre:
+                    return 0;
+                case StatusMesa.Ocupada:
+                    return 1;
+            }
+
+            return 0;
+        }
+        #endregion
+    }
+
+    public class ItemCardapio
+    {
+        #region Propriedades        
+        public int Id { get; set; }
+        public string Nome { get; set; }
+        public string Descricao { get; set; }
+        public double Preco { get; set; }
+
+        #endregion
+
+        #region Cadastrar Item
+
+        public void AdicionarItem(ItemCardapio inItem)
+        {
+            try
+            {
+                ValidarDados(inItem);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        #endregion
+
+        #region Exclusão do item
+        public void RemoverItem(int idItem)
+        {
+            //Realiza a requisição no banco para exclusão do item
+        }
+
+        #endregion
+
+        #region Alteração do Item
+        public void AlterarItem(ItemCardapio item)
+        {
+            try
+            {
+                ValidarDados(item);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        #endregion
+
+        #region Validar Dados
+        public void ValidarDados(ItemCardapio pDado)
+        {
+            if (string.IsNullOrEmpty(pDado.Nome))
+                throw new Exception("É necessário informar o nome do item.");
+
+            if (string.IsNullOrEmpty(pDado.Descricao))
+                throw new Exception("É necessário informar a descrição do item.");
+
+            if (pDado.Preco == 0)
+                throw new Exception("É necessário definir o valor do item.");
+        }
+
+        #endregion
+    }
+
+    public class Usuario
+    {
+        #region Propriedades        
+        public string Cpf { get; set; }
+        public string Nome { get; set; }
+        public string Email { get; set; }
+        public string Senha { get; set; }        
+        public string Celular { get; set; }
+        public TipoUsuario TipoUsu { get; set; }
+        #endregion
+
+        #region Enum
+        public enum TipoUsuario
+        {
+            Cliente = 0,
+
+            Funcionario = 1
+        }
+        #endregion
+
+        #region Criticar Dados
+        public void CriticarDados(Usuario inDado)
+        {
+            if (string.IsNullOrEmpty(inDado.Nome))
+                throw new Exception("Necessário o preenchimento do nome");
+
+            if (string.IsNullOrEmpty(inDado.Email))
+                throw new Exception("Necessário informar o Email");
+
+            if (string.IsNullOrEmpty(inDado.Senha))
+                throw new Exception("Necessário o preenchimento da senha");
+
+            if (string.IsNullOrEmpty(inDado.Cpf))
+                throw new Exception("Necessário o preenchimento do Cpf");
+
+            if (inDado.Cpf.Length < 11)
+                throw new Exception("CPF inválido, caracteres insuficientes.");
+        }
+
+        #endregion
+
+        #region Entrar
+
+        public void Entrar(string Email, string Senha)
+        {
+            try
+            {
+                if (ValidarLogin(Email, Senha))
+                {
+                    // Se o login estiver válido redireciona á pagina incial
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public bool ValidarLogin(string Email, string Senha)
+        {
+            bool UsuarioEstaValido = false;
+
+            //Realiza a requisição no banco para ver se o login está valido
+
+            return UsuarioEstaValido;
+        }
+
+        #endregion
+
+        #region Cadastrar usuario
+
+        public void CadastrarUsuario(Usuario inUsuario)
+        {
+            try
+            {
+                CriticarDados(inUsuario);
+
+                //após realizar a validação dos dados, são inseridos os dados do usuario na base
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        #endregion
+
+        #region Entrar Sem Login
+        public void EntrarSemLogin()
+        {
+            // Redireciona para a página inicial do aplicativo
+        }
+
+        #endregion
+    }
+
+    public class Cardapio
+    {
+        #region Propriedades        
+        public int id { get; set; }
+        public List<ItemCardapio> Itens { get; set; }
+
+        #endregion
+
+        #region Consultar Itens
+        public List<ItemCardapio> ConsultarItensCardapio()
+        {
+            List<ItemCardapio> itens = new List<ItemCardapio>();
+
+            //realiza a consulta dos itens do cardápio e retorna os valores para a tela
+
+            return itens;
+        }
+
+        #endregion
+
+        #region Montar Cardápio
+        public Cardapio MontarCardapio()
+        {
+            Cardapio cardapio = new Cardapio();
+
+            ConsultarItensCardapio();
+
+            return cardapio;
+        }
+
+        #endregion
+    }
+
+    public class Pedido
+    {
+        #region Propriedades                
+        public int Id { get; set; }
+        public List<ItemCardapio> Itens { get; set; }
+        public StatusPedido Status { get; set; }
+        public DateTime HoraPedido { get; set; }
+        public int CodMesa { get; set; }
+        public string CpfCliente { get; set; }
+
+        #endregion
+
+        #region Enums
+
+        public enum StatusPedido
+        {
+            recebido = 0,
+
+            Preparando = 1,
+
+            Entregue = 2
+        }
+
+        #endregion
+
+        #region Realizar Pedido
+
+        public void RealizarPedido(List<ItemCardapio> inItens, int inCodMesa)
+        {
+            //Faz a requisição na base para gravar o pedido
+        }
+
+        #endregion
+
+        #region Cancelar Pedido
+        public void CancelarPedido(int inIdPedido)
+        {
+            //Faz a requisição no banco para cancelar o pedido
+        }
+
+        #endregion
+
+        #region Atualizar o Status do Pedido
+        public void AtualizarStatusPedido(int inIdPedido, StatusPedido Status)
+        {
+            int statusPedido = ConverterStatusPedido(Status);
+
+            //Faz a requisição no banco para atualizar o status do pedido
+        }
+
+        #endregion
+
+        #region Métodos auxiliares
+        public int ConverterStatusPedido(StatusPedido Status)
+        {
+            switch (Status)
+            {
+                case StatusPedido.recebido:
+                    return 0;
+                case StatusPedido.Preparando:
+                    return 1;
+                case StatusPedido.Entregue:
+                    return 2;
+            }
+
+            return 0;
+        }
+
+        #endregion        
+    }
